@@ -1,0 +1,48 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ink: #0b1120;
+  --color-surface: #111a2e;
+  --color-surface-2: #1a253f;
+  --color-line: #263252;
+  --color-muted: #93a2c4;
+  --color-brand: #22c55e;
+  --color-brand-2: #f59e0b;
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+body {
+  background:
+    radial-gradient(1200px 600px at 80% -10%, #1b2748 0%, transparent 55%),
+    radial-gradient(900px 500px at -10% 10%, #14233f 0%, transparent 45%),
+    var(--color-ink);
+  color: #e8eefc;
+  font-family: var(--font-sans);
+  min-height: 100dvh;
+}
+
+@layer utilities {
+  .card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 1rem;
+  }
+  .card-hover {
+    transition:
+      transform 0.15s ease,
+      border-color 0.15s ease,
+      background 0.15s ease;
+  }
+  .card-hover:hover {
+    transform: translateY(-2px);
+    border-color: color-mix(in srgb, var(--accent, #22c55e) 60%, var(--color-line));
+  }
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
