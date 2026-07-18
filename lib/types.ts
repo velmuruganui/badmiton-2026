@@ -23,6 +23,8 @@ export interface Category {
   slug: string;
   name: string;
   court: string;
+  /** Scheduled time slot, e.g. "4:00–6:00 PM". */
+  time?: string;
   format: MatchFormat;
   gamePoints: number;
   /** Accent color used across the UI for this category. */

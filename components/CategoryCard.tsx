@@ -26,12 +26,17 @@ export function CategoryCard({ category }: { category: Category }) {
             {playerCount} people
           </p>
         </div>
-        <span
-          className="rounded-full px-2.5 py-1 text-xs font-semibold"
-          style={{ background: `${category.color}22`, color: category.color }}
-        >
-          {category.court}
-        </span>
+        <div className="flex flex-col items-end gap-1">
+          <span
+            className="rounded-full px-2.5 py-1 text-xs font-semibold"
+            style={{ background: `${category.color}22`, color: category.color }}
+          >
+            {category.court}
+          </span>
+          {category.time && (
+            <span className="text-xs text-muted">{category.time}</span>
+          )}
+        </div>
       </div>
 
       <div className="mt-4">

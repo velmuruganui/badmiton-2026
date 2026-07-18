@@ -28,7 +28,9 @@ export default async function CategoryPage({
           />
           <h1 className="text-2xl font-bold">{category.name}</h1>
           <span className="rounded-full bg-surface-2 px-2.5 py-1 text-xs font-medium text-muted">
-            {category.court} · game to {category.gamePoints}
+            {category.court}
+            {category.time ? ` · ${category.time}` : ""} · game to{" "}
+            {category.gamePoints}
           </span>
         </div>
         {category.note && (
