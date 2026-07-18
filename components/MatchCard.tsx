@@ -73,7 +73,7 @@ export function MatchCard({
       {ref && (
         <div className="mt-3 border-t border-line/60 pt-2 text-center text-xs text-muted">
           Referee:{" "}
-          <span className="font-medium text-white">
+          <span className="font-medium text-strong">
             {showCode ? `Team ${ref.code} · ` : ""}
             {ref.players.join(" & ")}
           </span>

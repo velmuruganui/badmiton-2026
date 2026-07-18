@@ -5,6 +5,7 @@ import { useStore } from "@/lib/store";
 import { useUmpire } from "@/lib/umpire";
 import { getTeam, matchKey } from "@/lib/tournament-data";
 import { DEFAULT_MATCH_STATE, deriveState } from "@/lib/scoring";
+import { readableOn } from "@/lib/color";
 import { AvatarPair } from "./Avatar";
 import type { Category, ScheduledMatch, Team } from "@/lib/types";
 
@@ -64,7 +65,7 @@ function ScorePanel({
             type="button"
             onClick={onDec}
             disabled={score === 0}
-            className="flex-1 rounded-lg border border-line py-2 text-lg font-semibold text-muted enabled:hover:text-white disabled:opacity-40"
+            className="flex-1 rounded-lg border border-line py-2 text-lg font-semibold text-muted enabled:hover:text-strong disabled:opacity-40"
           >
             −1
           </button>
@@ -72,8 +73,8 @@ function ScorePanel({
             type="button"
             onClick={onInc}
             disabled={done}
-            className="flex-1 rounded-lg py-2 text-lg font-semibold text-ink disabled:opacity-40"
-            style={{ background: accent }}
+            className="flex-1 rounded-lg py-2 text-lg font-semibold disabled:opacity-40"
+            style={{ background: accent, color: readableOn(accent) }}
           >
             +1
           </button>
@@ -127,7 +128,7 @@ export function Scoreboard({
       <div className="flex items-center justify-between">
         <Link
           href={`/${category.slug}`}
-          className="text-sm text-muted hover:text-white"
+          className="text-sm text-muted hover:text-strong"
         >
           ← {category.name}
         </Link>
@@ -179,7 +180,7 @@ export function Scoreboard({
       {ref && (
         <div className="text-center text-sm text-muted">
           Referee:{" "}
-          <span className="font-medium text-white">
+          <span className="font-medium text-strong">
             {category.format === "doubles" ? `Team ${ref.code} · ` : ""}
             {ref.players.join(" & ")}
           </span>
@@ -191,7 +192,7 @@ export function Scoreboard({
           <button
             type="button"
             onClick={reset}
-            className="rounded-lg border border-line px-4 py-2 text-sm text-muted hover:text-white"
+            className="rounded-lg border border-line px-4 py-2 text-sm text-muted hover:text-strong"
           >
             Reset match
           </button>

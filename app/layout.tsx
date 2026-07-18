@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 import { StoreProvider } from "@/lib/store";
 import { UmpireProvider } from "@/lib/umpire";
@@ -23,6 +24,11 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}if(t==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}})();`,
+          }}
+        />
         <StoreProvider>
           <UmpireProvider>
             <SiteHeader />
@@ -34,6 +40,7 @@ export default function RootLayout({
             </footer>
           </UmpireProvider>
         </StoreProvider>
+        <Analytics />
       </body>
     </html>
   );

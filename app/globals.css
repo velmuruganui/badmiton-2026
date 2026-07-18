@@ -1,27 +1,57 @@
 @import "tailwindcss";
 
+/* Brand palette
+   Primary:  Mature Blue #012A38 · Confident Orange #FF3300 · Brilliant Yellow #BFF90B · Light Orange #FF523B
+   Secondary: Clarity Ivory #E0DBC6 · Clarity White #EFEFEF · Clarity Blue #A2C1C4
+   Neutral:  Light Silver #D3D9DC · Cadet Grey #92A1A8 · Storm Cloud #4F6169 */
 @theme {
-  --color-ink: #0b1120;
-  --color-surface: #111a2e;
-  --color-surface-2: #1a253f;
-  --color-line: #263252;
-  --color-muted: #93a2c4;
-  --color-brand: #22c55e;
-  --color-brand-2: #f59e0b;
+  /* Constant brand accents (identical in both themes) */
+  --color-ink: #012a38; /* Mature Blue: dark text placed on bright accents */
+  --color-brand: #ff3300; /* Confident Orange: primary accent / actions */
+  --color-brand-2: #bff90b; /* Brilliant Yellow: highlights */
+  --color-brand-3: #ff523b; /* Light Orange: supporting accent */
+
+  /* Semantic tokens — these flip between dark (default) and light themes */
+  --color-bg: #012a38; /* page + header background */
+  --color-surface: #06333f; /* card surface */
+  --color-surface-2: #0d4453; /* raised surface */
+  --color-line: #4f6169; /* Storm Cloud: borders */
+  --color-text: #efefef; /* Clarity White: body text */
+  --color-strong: #ffffff; /* emphasis text */
+  --color-muted: #a2c1c4; /* Clarity Blue: secondary text */
+  --color-note: #bff90b; /* advisory note text */
+
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, monospace;
 }
 
 :root {
   color-scheme: dark;
+  --bg-glow-1: rgba(255, 51, 0, 0.1);
+  --bg-glow-2: rgba(162, 193, 196, 0.12);
+}
+
+/* Light theme overrides */
+[data-theme="light"] {
+  color-scheme: light;
+  --color-bg: #eef2f3; /* soft off-white */
+  --color-surface: #ffffff;
+  --color-surface-2: #e4eaec; /* Light Silver */
+  --color-line: #c7d2d6;
+  --color-text: #012a38; /* Mature Blue text */
+  --color-strong: #012a38;
+  --color-muted: #4f6169; /* Storm Cloud */
+  --color-note: #9a5b00; /* readable amber for notes on light bg */
+  --bg-glow-1: rgba(255, 51, 0, 0.08);
+  --bg-glow-2: rgba(162, 193, 196, 0.28);
 }
 
 body {
   background:
-    radial-gradient(1200px 600px at 80% -10%, #1b2748 0%, transparent 55%),
-    radial-gradient(900px 500px at -10% 10%, #14233f 0%, transparent 45%),
-    var(--color-ink);
-  color: #e8eefc;
+    radial-gradient(900px 460px at 100% -10%, var(--bg-glow-1) 0%, transparent 55%),
+    radial-gradient(1000px 520px at -10% 8%, var(--bg-glow-2) 0%, transparent 48%),
+    var(--color-bg);
+  color: var(--color-text);
   font-family: var(--font-sans);
   min-height: 100dvh;
 }
@@ -40,7 +70,7 @@ body {
   }
   .card-hover:hover {
     transform: translateY(-2px);
-    border-color: color-mix(in srgb, var(--accent, #22c55e) 60%, var(--color-line));
+    border-color: color-mix(in srgb, var(--accent, #ff3300) 60%, var(--color-line));
   }
   .tabular {
     font-variant-numeric: tabular-nums;

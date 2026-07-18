@@ -13,7 +13,7 @@ export default function HomePage() {
           </h1>
           <p className="mt-2 max-w-2xl text-sm text-muted sm:text-base">
             Live scores across all categories. Every game is played to{" "}
-            <strong className="text-white">20 points</strong>. Pick a category
+            <strong className="text-strong">20 points</strong>. Pick a category
             to follow matches, keep score, and see the standings update in real
             time.
           </p>

@@ -2,6 +2,7 @@
 
 import { useStore } from "@/lib/store";
 import { playerId as makePlayerId } from "@/lib/tournament-data";
+import { readableOn } from "@/lib/color";
 
 const COLORS = [
   "#ef4444", "#f59e0b", "#22c55e", "#06b6d4",
@@ -36,11 +37,12 @@ export function Avatar({
   const { avatars } = useStore();
   const url = avatars[makePlayerId(categorySlug, name)];
   const px = SIZES[size];
+  const bg = colorFor(name);
 
   return (
     <span
       className={`relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full ring-2 ring-line ${className}`}
-      style={{ width: px, height: px, background: colorFor(name) }}
+      style={{ width: px, height: px, background: bg }}
       title={name}
     >
       {url ? (
@@ -48,8 +50,8 @@ export function Avatar({
         <img src={url} alt={name} className="h-full w-full object-cover" />
       ) : (
         <span
-          className="font-semibold text-white"
-          style={{ fontSize: px * 0.36 }}
+          className="font-semibold"
+          style={{ fontSize: px * 0.36, color: readableOn(bg) }}
         >
           {initials(name)}
         </span>

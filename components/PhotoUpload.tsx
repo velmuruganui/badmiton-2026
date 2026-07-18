@@ -82,7 +82,7 @@ export function PhotoUpload({
           type="button"
           onClick={() => inputRef.current?.click()}
           disabled={busy}
-          className="mt-1 rounded-md border border-line bg-surface-2 px-2.5 py-1 text-xs font-medium text-muted hover:text-white disabled:opacity-50"
+          className="mt-1 rounded-md border border-line bg-surface-2 px-2.5 py-1 text-xs font-medium text-muted hover:text-strong disabled:opacity-50"
         >
           {busy ? "Uploading…" : "Add / change photo"}
         </button>

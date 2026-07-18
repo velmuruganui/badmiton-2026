@@ -39,14 +39,14 @@ export function UmpireLockButton() {
     <>
       <button
         onClick={open}
-        className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface-2 px-3 py-1.5 text-sm font-medium text-muted hover:text-white"
+        className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface-2 px-3 py-1.5 text-sm font-medium text-muted hover:text-strong"
       >
         <span aria-hidden>🔒</span> View only
       </button>
 
       <dialog
         ref={dialogRef}
-        className="m-auto w-[90vw] max-w-sm rounded-2xl border border-line bg-surface p-0 text-white backdrop:bg-black/60"
+        className="m-auto w-[90vw] max-w-sm rounded-2xl border border-line bg-surface p-0 text-strong backdrop:bg-black/60"
       >
         <form onSubmit={submit} className="p-5">
           <h2 className="text-lg font-semibold">Enter umpire PIN</h2>
@@ -73,13 +73,13 @@ export function UmpireLockButton() {
             <button
               type="button"
               onClick={() => dialogRef.current?.close()}
-              className="rounded-lg px-4 py-2 text-sm text-muted hover:text-white"
+              className="rounded-lg px-4 py-2 text-sm text-muted hover:text-strong"
             >
               Cancel
             </button>
             <button
               type="submit"
-              className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-ink"
+              className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white"
             >
               Unlock
             </button>

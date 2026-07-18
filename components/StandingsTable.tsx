@@ -33,7 +33,7 @@ export function StandingsTable({ category }: { category: Category }) {
               <td className="px-3 py-2">
                 <span
                   className={`inline-grid h-6 w-6 place-items-center rounded-full text-xs font-bold ${
-                    r.rank === 1 ? "bg-brand text-ink" : "bg-surface-2 text-muted"
+                    r.rank === 1 ? "bg-brand text-white" : "bg-surface-2 text-muted"
                   }`}
                 >
                   {r.rank}

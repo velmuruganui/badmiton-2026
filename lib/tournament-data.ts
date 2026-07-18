@@ -27,7 +27,7 @@ export const CATEGORIES: Category[] = [
     time: "4:00–6:00 PM",
     format: "doubles",
     gamePoints: 20,
-    color: "#f59e0b",
+    color: "#ff3300",
     teams: [
       { code: "A", players: ["Doctor", "Abhijith"] },
       { code: "B", players: ["Satheesh", "Harsha"] },
@@ -44,7 +44,7 @@ export const CATEGORIES: Category[] = [
     time: "4:00–6:00 PM",
     format: "doubles",
     gamePoints: 20,
-    color: "#22c55e",
+    color: "#bff90b",
     teams: [
       { code: "A", players: ["Nagaraj", "Abdul"] },
       { code: "B", players: ["Jk", "Sabari"] },
@@ -61,7 +61,7 @@ export const CATEGORIES: Category[] = [
     time: "6:00–7:00 PM",
     format: "doubles",
     gamePoints: 20,
-    color: "#fb923c",
+    color: "#c084fc",
     teams: [
       { code: "A", players: ["Satheesh", "Prema"] },
       { code: "B", players: ["Velu", "Durga"] },
@@ -92,7 +92,7 @@ export const CATEGORIES: Category[] = [
     time: "4:00–4:40 PM",
     format: "doubles",
     gamePoints: 20,
-    color: "#ec4899",
+    color: "#ff6fb5",
     teams: [
       { code: "A", players: ["Prema", "Durga"] },
       { code: "B", players: ["Reena", "Vidya"] },
@@ -112,7 +112,7 @@ export const CATEGORIES: Category[] = [
     time: "4:40–5:20 PM",
     format: "doubles",
     gamePoints: 20,
-    color: "#a855f7",
+    color: "#2dd4bf",
     teams: [
       { code: "A", players: ["Gnanavel", "Sharwesh"] },
       { code: "B", players: ["Easan", "Jack"] },
@@ -136,7 +136,7 @@ export const CATEGORIES: Category[] = [
     time: "5:20–6:00 PM",
     format: "singles",
     gamePoints: 20,
-    color: "#38bdf8",
+    color: "#5aa9ff",
     teams: [
       { code: "Diya", players: ["Diya"] },
       { code: "Roshne", players: ["Roshne"] },

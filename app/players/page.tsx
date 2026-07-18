@@ -15,7 +15,7 @@ export default function PlayersPage() {
           Add a profile picture for everyone. Photos are shown on the dashboard,
           match cards and the live scoreboard.
           {backend === "local" && (
-            <span className="ml-1 text-brand-2">
+            <span className="ml-1 text-note">
               (Saved on this device — connect Supabase to sync across devices.)
             </span>
           )}

@@ -18,7 +18,7 @@ export default async function CategoryPage({
   return (
     <div className="space-y-8">
       <div>
-        <Link href="/" className="text-sm text-muted hover:text-white">
+        <Link href="/" className="text-sm text-muted hover:text-strong">
           ← All categories
         </Link>
         <div className="mt-2 flex flex-wrap items-center gap-3">
@@ -34,7 +34,7 @@ export default async function CategoryPage({
           </span>
         </div>
         {category.note && (
-          <p className="mt-2 text-sm text-brand-2">Note: {category.note}</p>
+          <p className="mt-2 text-sm text-note">Note: {category.note}</p>
         )}
       </div>
 
