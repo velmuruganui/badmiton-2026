@@ -80,8 +80,6 @@ export interface EditLock {
   heldByMe: boolean;
   /** Number of other umpires currently on this match. */
   others: number;
-  /** Wrest control from the current holder (graceful handoff). */
-  takeOver: () => void;
 }
 
 export function useMatchEditLock(matchKey: string, active: boolean): EditLock {
@@ -155,20 +153,8 @@ export function useMatchEditLock(matchKey: string, active: boolean): EditLock {
     };
   }, [matchKey, active, rerender]);
 
-  const takeOver = useCallback(() => {
-    let min = claimTsRef.current;
-    for (const p of peersRef.current.values()) min = Math.min(min, p.claimTs);
-    claimTsRef.current = min - 1;
-    transportRef.current?.send({
-      id: idRef.current,
-      claimTs: claimTsRef.current,
-      type: "ping",
-    });
-    rerender();
-  }, [rerender]);
-
   if (!active) {
-    return { locked: false, heldByMe: false, others: 0, takeOver };
+    return { locked: false, heldByMe: false, others: 0 };
   }
 
   const myId = idRef.current;
@@ -189,6 +175,5 @@ export function useMatchEditLock(matchKey: string, active: boolean): EditLock {
     locked: !heldByMe,
     heldByMe,
     others: peersRef.current.size,
-    takeOver,
   };
 }

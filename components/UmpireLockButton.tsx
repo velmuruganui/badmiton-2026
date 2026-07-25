@@ -28,9 +28,11 @@ export function UmpireLockButton() {
     return (
       <button
         onClick={lock}
-        className="inline-flex items-center gap-1.5 rounded-full border border-brand/50 bg-brand/15 px-3 py-1.5 text-sm font-medium text-brand"
+        title="Umpire mode — tap to lock"
+        aria-label="Umpire mode — tap to lock"
+        className="inline-grid h-9 w-9 place-items-center rounded-full border border-brand/50 bg-brand/15 text-base text-brand"
       >
-        <span aria-hidden>●</span> Umpire · lock
+        <span aria-hidden>🔓</span>
       </button>
     );
   }
@@ -39,9 +41,11 @@ export function UmpireLockButton() {
     <>
       <button
         onClick={open}
-        className="inline-flex items-center gap-1.5 rounded-full border border-line bg-surface-2 px-3 py-1.5 text-sm font-medium text-muted hover:text-strong"
+        title="View only — tap to enter umpire PIN"
+        aria-label="View only — tap to enter umpire PIN"
+        className="inline-grid h-9 w-9 place-items-center rounded-full border border-line bg-surface-2 text-base text-muted hover:text-strong"
       >
-        <span aria-hidden>🔒</span> View only
+        <span aria-hidden>🔒</span>
       </button>
 
       <dialog

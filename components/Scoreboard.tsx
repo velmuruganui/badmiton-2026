@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useState } from "react";
 import Link from "next/link";
 import { useStore } from "@/lib/store";
 import { useUmpire } from "@/lib/umpire";
@@ -97,7 +98,10 @@ export function Scoreboard({
 
   const key = matchKey(category.slug, match.matchNo);
   // Only one umpire may edit a given match at a time.
-  const { locked, heldByMe, others, takeOver } = useMatchEditLock(key, isUmpire);
+  const { locked, heldByMe, others } = useMatchEditLock(key, isUmpire);
+  const resetDialogRef = useRef<HTMLDialogElement>(null);
+  const [resetPin, setResetPin] = useState("");
+  const [resetError, setResetError] = useState(false);
   const state = getMatch(key) ?? DEFAULT_MATCH_STATE;
   const teamA = getTeam(category, match.a);
   const teamB = getTeam(category, match.b);
@@ -125,6 +129,22 @@ export function Scoreboard({
   const reset = () =>
     updateMatch(key, { scoreA: 0, scoreB: 0, status: "scheduled", winner: null });
 
+  const RESET_PIN = process.env.NEXT_PUBLIC_RESET_PIN || "0000";
+  function openResetDialog() {
+    setResetPin("");
+    setResetError(false);
+    resetDialogRef.current?.showModal();
+  }
+  function submitReset(e: React.FormEvent) {
+    e.preventDefault();
+    if (resetPin.trim() === RESET_PIN) {
+      reset();
+      resetDialogRef.current?.close();
+    } else {
+      setResetError(true);
+    }
+  }
+
   const winnerTeam = state.winner === match.a ? teamA : state.winner === match.b ? teamB : null;
 
   return (
@@ -148,17 +168,8 @@ export function Scoreboard({
       )}
 
       {isUmpire && locked && (
-        <div className="flex flex-col items-center gap-2 rounded-xl border border-brand-3/50 bg-brand-3/10 px-4 py-3 text-center text-sm sm:flex-row sm:justify-between sm:text-left">
-          <span className="text-strong">
-            🔒 Another umpire is editing this match. Controls are disabled.
-          </span>
-          <button
-            type="button"
-            onClick={takeOver}
-            className="shrink-0 rounded-lg border border-brand-3/60 bg-brand-3/20 px-3 py-1.5 text-xs font-semibold text-strong hover:bg-brand-3/30"
-          >
-            Take over editing
-          </button>
+        <div className="rounded-xl border border-brand-3/50 bg-brand-3/10 px-4 py-3 text-center text-sm text-strong">
+          🔒 Another umpire is already scoring this match. Editing is locked.
         </div>
       )}
 
@@ -217,13 +228,57 @@ export function Scoreboard({
         <div className="flex justify-center">
           <button
             type="button"
-            onClick={reset}
+            onClick={openResetDialog}
             className="rounded-lg border border-line px-4 py-2 text-sm text-muted hover:text-strong"
           >
             Reset match
           </button>
         </div>
       )}
+
+      <dialog
+        ref={resetDialogRef}
+        className="m-auto w-[90vw] max-w-sm rounded-2xl border border-line bg-surface p-0 text-strong backdrop:bg-black/60"
+      >
+        <form onSubmit={submitReset} className="p-5">
+          <h2 className="text-lg font-semibold">Reset this match?</h2>
+          <p className="mt-1 text-sm text-muted">
+            This clears the score and status. Enter the reset PIN to confirm.
+          </p>
+          <input
+            autoFocus
+            type="password"
+            inputMode="numeric"
+            value={resetPin}
+            onChange={(e) => {
+              setResetPin(e.target.value);
+              setResetError(false);
+            }}
+            placeholder="PIN"
+            className={`mt-4 w-full rounded-lg border bg-surface-2 px-3 py-2 text-lg tabular outline-none ${
+              resetError ? "border-red-500" : "border-line focus:border-brand"
+            }`}
+          />
+          {resetError && (
+            <p className="mt-2 text-sm text-red-400">Incorrect PIN, try again.</p>
+          )}
+          <div className="mt-5 flex justify-end gap-2">
+            <button
+              type="button"
+              onClick={() => resetDialogRef.current?.close()}
+              className="rounded-lg px-4 py-2 text-sm text-muted hover:text-strong"
+            >
+              Cancel
+            </button>
+            <button
+              type="submit"
+              className="rounded-lg bg-red-500 px-4 py-2 text-sm font-semibold text-white"
+            >
+              Reset match
+            </button>
+          </div>
+        </form>
+      </dialog>
     </div>
   );
 }
