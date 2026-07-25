@@ -1,4 +1,4 @@
-import { isKnockout, knockoutResult } from "./bracket";
+import { resolveSideCode } from "./bracket";
 import { matchKey } from "./tournament-data";
 import type { Category, ScoreMap } from "./types";
 
@@ -36,8 +36,13 @@ export function computeStandings(
   for (const m of category.schedule) {
     const state = scores[matchKey(category.slug, m.matchNo)];
     if (!state || state.status !== "done") continue;
-    const a = rows.get(m.a);
-    const b = rows.get(m.b);
+    // Resolve knockout "W{n}" placeholders to the real team that advanced.
+    // For round-robin, the code passes straight through.
+    const codeA = resolveSideCode(category, m.a, scores);
+    const codeB = resolveSideCode(category, m.b, scores);
+    if (!codeA || !codeB) continue;
+    const a = rows.get(codeA);
+    const b = rows.get(codeB);
     if (!a || !b) continue;
 
     a.played++;
@@ -47,10 +52,10 @@ export function computeStandings(
     b.pointsFor += state.scoreB;
     b.pointsAgainst += state.scoreA;
 
-    if (state.winner === m.a) {
+    if (state.winner === codeA) {
       a.won++;
       b.lost++;
-    } else if (state.winner === m.b) {
+    } else if (state.winner === codeB) {
       b.won++;
       a.lost++;
     }
@@ -89,13 +94,14 @@ export interface Podium {
 }
 
 /**
- * Champion / runner-up for any category. Round-robin uses the standings table;
- * knockout uses the bracket final.
+ * Champion / runner-up for any category — round-robin and knockout alike.
+ *
+ * Ranking rule (uniform across the tournament): most matches won first, ties
+ * broken by point difference (points for − against), then total points scored.
+ * Knockout brackets are ranked the same way; because a bracket champion wins
+ * every match they play, this normally agrees with the Final result too.
  */
 export function categoryPodium(category: Category, scores: ScoreMap): Podium {
-  if (isKnockout(category)) {
-    return knockoutResult(category, scores);
-  }
   const rows = computeStandings(category, scores);
   const { done, total } = categoryProgress(category, scores);
   return {

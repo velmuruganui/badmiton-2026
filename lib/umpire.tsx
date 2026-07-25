@@ -9,7 +9,7 @@ import {
 } from "react";
 
 const UNLOCK_KEY = "badminton:umpire";
-const PIN = process.env.NEXT_PUBLIC_UMPIRE_PIN || "2026";
+const PIN = process.env.NEXT_PUBLIC_UMPIRE_PIN || "1111";
 
 interface UmpireValue {
   isUmpire: boolean;
