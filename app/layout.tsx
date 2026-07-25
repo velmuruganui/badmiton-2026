@@ -27,7 +27,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col">
         <script
           dangerouslySetInnerHTML={{
-            __html: `(function(){try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia&&window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}if(t==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}})();`,
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(!t){t='light';}if(t==='light'){document.documentElement.setAttribute('data-theme','light');}}catch(e){}})();`,
           }}
         />
         <StoreProvider>
