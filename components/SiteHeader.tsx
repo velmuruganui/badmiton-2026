@@ -21,6 +21,16 @@ export function SiteHeader() {
         </Link>
         <nav className="flex items-center gap-2 text-sm">
           <Link
+            href="/winners"
+            className={`rounded-full px-3 py-1.5 font-medium ${
+              pathname === "/winners"
+                ? "bg-surface-2 text-strong"
+                : "text-muted hover:text-strong"
+            }`}
+          >
+            Winners
+          </Link>
+          <Link
             href="/players"
             className={`rounded-full px-3 py-1.5 font-medium ${
               pathname === "/players"

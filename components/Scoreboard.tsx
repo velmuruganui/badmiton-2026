@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useStore } from "@/lib/store";
 import { useUmpire } from "@/lib/umpire";
+import { useMatchEditLock } from "@/lib/edit-lock";
 import { getTeam, matchKey } from "@/lib/tournament-data";
 import { DEFAULT_MATCH_STATE, deriveState } from "@/lib/scoring";
 import { readableOn } from "@/lib/color";
@@ -95,6 +96,8 @@ export function Scoreboard({
   const { isUmpire } = useUmpire();
 
   const key = matchKey(category.slug, match.matchNo);
+  // Only one umpire may edit a given match at a time.
+  const { locked, heldByMe, others, takeOver } = useMatchEditLock(key, isUmpire);
   const state = getMatch(key) ?? DEFAULT_MATCH_STATE;
   const teamA = getTeam(category, match.a);
   const teamB = getTeam(category, match.b);
@@ -102,6 +105,7 @@ export function Scoreboard({
   if (!teamA || !teamB) return null;
 
   const done = state.status === "done";
+  const canEdit = isUmpire && heldByMe;
 
   function apply(scoreA: number, scoreB: number) {
     const derived = deriveState(
@@ -143,6 +147,28 @@ export function Scoreboard({
         </div>
       )}
 
+      {isUmpire && locked && (
+        <div className="flex flex-col items-center gap-2 rounded-xl border border-brand-3/50 bg-brand-3/10 px-4 py-3 text-center text-sm sm:flex-row sm:justify-between sm:text-left">
+          <span className="text-strong">
+            🔒 Another umpire is editing this match. Controls are disabled.
+          </span>
+          <button
+            type="button"
+            onClick={takeOver}
+            className="shrink-0 rounded-lg border border-brand-3/60 bg-brand-3/20 px-3 py-1.5 text-xs font-semibold text-strong hover:bg-brand-3/30"
+          >
+            Take over editing
+          </button>
+        </div>
+      )}
+
+      {isUmpire && heldByMe && others > 0 && (
+        <div className="rounded-xl border border-brand/40 bg-brand/10 px-4 py-2 text-center text-sm text-brand">
+          You have edit control · {others} other umpire
+          {others > 1 ? "s are" : " is"} viewing.
+        </div>
+      )}
+
       {done && winnerTeam && (
         <div
           className="rounded-xl px-4 py-3 text-center font-semibold"
@@ -159,7 +185,7 @@ export function Scoreboard({
           score={state.scoreA}
           accent={category.color}
           isWinner={state.winner === match.a}
-          canEdit={isUmpire}
+          canEdit={canEdit}
           done={done}
           onInc={incA}
           onDec={decA}
@@ -170,7 +196,7 @@ export function Scoreboard({
           score={state.scoreB}
           accent={category.color}
           isWinner={state.winner === match.b}
-          canEdit={isUmpire}
+          canEdit={canEdit}
           done={done}
           onInc={incB}
           onDec={decB}
@@ -187,7 +213,7 @@ export function Scoreboard({
         </div>
       )}
 
-      {isUmpire && (
+      {canEdit && (
         <div className="flex justify-center">
           <button
             type="button"
