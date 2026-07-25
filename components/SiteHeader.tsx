@@ -40,8 +40,8 @@ export function SiteHeader() {
           >
             Players
           </Link>
-          <ThemeToggle />
           <UmpireLockButton />
+          <ThemeToggle />
         </nav>
       </div>
     </header>
