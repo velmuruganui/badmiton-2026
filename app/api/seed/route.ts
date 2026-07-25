@@ -30,6 +30,7 @@ async function seed() {
     name: c.name,
     court: c.court,
     format: c.format,
+    kind: c.kind ?? "round-robin",
     game_points: c.gamePoints,
     color: c.color,
   }));
@@ -49,6 +50,8 @@ async function seed() {
     team_a: string;
     team_b: string;
     referee: string | null;
+    referee_name: string | null;
+    stage: string | null;
   }[] = [];
 
   for (const category of CATEGORIES) {
@@ -82,6 +85,8 @@ async function seed() {
         team_a: m.a,
         team_b: m.b,
         referee: m.ref ?? null,
+        referee_name: m.refName ?? null,
+        stage: m.stage ?? null,
       });
     }
   }

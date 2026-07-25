@@ -10,9 +10,14 @@ create table if not exists categories (
   name         text not null,
   court        text not null,
   format       text not null check (format in ('doubles', 'singles')),
+  kind         text not null default 'round-robin'
+               check (kind in ('round-robin', 'knockout')),
   game_points  int  not null default 20,
   color        text not null default '#22c55e'
 );
+
+-- If upgrading an existing database, add the column added above:
+alter table categories add column if not exists kind text not null default 'round-robin';
 
 create table if not exists players (
   id            text primary key,          -- `${categorySlug}:${name}`
@@ -33,9 +38,11 @@ create table if not exists matches (
   id            text primary key,          -- `${categorySlug}-${matchNo}`
   category_slug text not null references categories(slug) on delete cascade,
   match_no      int  not null,
-  team_a        text not null,             -- team code
-  team_b        text not null,             -- team code
-  referee       text,                      -- team code of referee
+  team_a        text not null,             -- team code, or "W{n}" winner placeholder
+  team_b        text not null,             -- team code, or "W{n}" winner placeholder
+  referee       text,                      -- team code of refereeing team
+  referee_name  text,                      -- named individual referee
+  stage         text,                      -- bracket round label, e.g. "Final"
   score_a       int  not null default 0,
   score_b       int  not null default 0,
   status        text not null default 'scheduled'
@@ -43,6 +50,10 @@ create table if not exists matches (
   winner        text,
   updated_at    timestamptz not null default now()
 );
+
+-- If upgrading an existing database, add the columns added above:
+alter table matches add column if not exists referee_name text;
+alter table matches add column if not exists stage text;
 
 -- ------------------------------------------------------------------
 -- Realtime: broadcast row changes on matches and players

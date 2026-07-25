@@ -5,10 +5,10 @@ const out = [];
 
 const cats = CATEGORIES.map(
   (c) =>
-    `('${c.slug}','${esc(c.name)}','${c.court}','${c.format}',${c.gamePoints},'${c.color}')`,
+    `('${c.slug}','${esc(c.name)}','${c.court}','${c.format}','${c.kind ?? "round-robin"}',${c.gamePoints},'${c.color}')`,
 ).join(",\n");
 out.push(
-  `insert into categories (slug,name,court,format,game_points,color) values\n${cats}\non conflict (slug) do update set name=excluded.name,court=excluded.court,format=excluded.format,game_points=excluded.game_points,color=excluded.color;`,
+  `insert into categories (slug,name,court,format,kind,game_points,color) values\n${cats}\non conflict (slug) do update set name=excluded.name,court=excluded.court,format=excluded.format,kind=excluded.kind,game_points=excluded.game_points,color=excluded.color;`,
 );
 
 const players = [];
@@ -43,13 +43,15 @@ const matches = [];
 for (const c of CATEGORIES) {
   for (const m of c.schedule) {
     const ref = m.ref ? `'${esc(m.ref)}'` : "null";
+    const refName = m.refName ? `'${esc(m.refName)}'` : "null";
+    const stage = m.stage ? `'${esc(m.stage)}'` : "null";
     matches.push(
-      `('${matchKey(c.slug, m.matchNo)}','${c.slug}',${m.matchNo},'${esc(m.a)}','${esc(m.b)}',${ref})`,
+      `('${matchKey(c.slug, m.matchNo)}','${c.slug}',${m.matchNo},'${esc(m.a)}','${esc(m.b)}',${ref},${refName},${stage})`,
     );
   }
 }
 out.push(
-  `insert into matches (id,category_slug,match_no,team_a,team_b,referee) values\n${matches.join(",\n")}\non conflict (id) do nothing;`,
+  `insert into matches (id,category_slug,match_no,team_a,team_b,referee,referee_name,stage) values\n${matches.join(",\n")}\non conflict (id) do nothing;`,
 );
 
 console.log(out.join("\n\n"));

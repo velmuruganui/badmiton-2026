@@ -66,7 +66,7 @@ export default async function CategoryPage({
       <section className="space-y-6">
         <h2 className="text-lg font-semibold">Matches</h2>
         {groups.map((group, i) => (
-          <div key={group.label ?? i} className="space-y-3">
+          <div key={`${group.label ?? "group"}-${i}`} className="space-y-3">
             {group.label && (
               <h3 className="text-xs font-semibold uppercase tracking-wide text-muted">
                 {group.label}
