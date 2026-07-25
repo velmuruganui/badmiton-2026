@@ -24,11 +24,20 @@ export function LiveMatches() {
       ) : (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {live.map(({ category, match }) => (
-            <MatchCard
-              key={`${category.slug}-${match.matchNo}`}
-              category={category}
-              match={match}
-            />
+            <div key={`${category.slug}-${match.matchNo}`}>
+              <div className="mb-1.5 flex items-center gap-2 px-1 text-xs text-muted">
+                <span
+                  className="h-2 w-2 shrink-0 rounded-full"
+                  style={{ background: category.color }}
+                />
+                <span className="font-semibold text-strong">
+                  {category.court}
+                </span>
+                <span aria-hidden>·</span>
+                <span className="truncate">{category.name}</span>
+              </div>
+              <MatchCard category={category} match={match} />
+            </div>
           ))}
         </div>
       )}

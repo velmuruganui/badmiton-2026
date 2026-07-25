@@ -55,8 +55,14 @@ export function MatchCard({
           {match.stage ? `${match.stage} · ` : ""}Match {match.matchNo}
         </span>
         <span
-          className={`rounded-full px-2 py-0.5 text-[11px] font-semibold uppercase ${STATUS_STYLES[state.status]}`}
+          className={`inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold uppercase ${STATUS_STYLES[state.status]} ${state.status === "live" ? "animate-pulse" : ""}`}
         >
+          {state.status === "live" && (
+            <span className="relative flex h-1.5 w-1.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75" />
+              <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-red-400" />
+            </span>
+          )}
           {state.status === "live" ? "Live" : state.status}
         </span>
       </div>
