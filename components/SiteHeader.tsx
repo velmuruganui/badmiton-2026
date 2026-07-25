@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { UmpireLockButton } from "./UmpireLockButton";
 import { ThemeToggle } from "./ThemeToggle";
+import { ConnectionBadge } from "./ConnectionBadge";
 
 export function SiteHeader() {
   const pathname = usePathname();
@@ -41,6 +42,7 @@ export function SiteHeader() {
             Winners
           </Link>
 
+          <ConnectionBadge />
           <UmpireLockButton />
           <ThemeToggle />
         </nav>
