@@ -1,3 +1,4 @@
+import { isKnockout, knockoutResult } from "./bracket";
 import { matchKey } from "./tournament-data";
 import type { Category, ScoreMap } from "./types";
 
@@ -69,4 +70,38 @@ export function categoryProgress(category: Category, scores: ScoreMap) {
     if (scores[matchKey(category.slug, m.matchNo)]?.status === "done") done++;
   }
   return { done, total };
+}
+
+export interface PodiumRow {
+  code: string;
+  players: string[];
+  won: number;
+  lost: number;
+}
+
+export interface Podium {
+  champion?: PodiumRow;
+  runnerUp?: PodiumRow;
+  /** True once the category is fully decided. */
+  complete: boolean;
+  /** True once any match has finished. */
+  started: boolean;
+}
+
+/**
+ * Champion / runner-up for any category. Round-robin uses the standings table;
+ * knockout uses the bracket final.
+ */
+export function categoryPodium(category: Category, scores: ScoreMap): Podium {
+  if (isKnockout(category)) {
+    return knockoutResult(category, scores);
+  }
+  const rows = computeStandings(category, scores);
+  const { done, total } = categoryProgress(category, scores);
+  return {
+    champion: rows[0],
+    runnerUp: rows[1],
+    complete: total > 0 && done === total,
+    started: rows.some((r) => r.played > 0),
+  };
 }

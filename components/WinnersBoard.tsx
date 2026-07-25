@@ -1,7 +1,7 @@
 "use client";
 
 import { useStore } from "@/lib/store";
-import { categoryProgress, computeStandings, type StandingRow } from "@/lib/standings";
+import { categoryPodium, categoryProgress, type PodiumRow } from "@/lib/standings";
 import { AvatarPair } from "./Avatar";
 import type { Category } from "@/lib/types";
 
@@ -11,7 +11,7 @@ function Podium({
   place,
 }: {
   category: Category;
-  row: StandingRow;
+  row: PodiumRow;
   place: "winner" | "runner";
 }) {
   const isWinner = place === "winner";
@@ -63,12 +63,8 @@ function Podium({
 function CategoryResultCard({ category }: { category: Category }) {
   const { scores } = useStore();
   const { done, total } = categoryProgress(category, scores);
-  const rows = computeStandings(category, scores);
-  const winner = rows[0];
-  const runner = rows[1];
-
-  const complete = total > 0 && done === total;
-  const started = rows.some((r) => r.played > 0);
+  const { champion: winner, runnerUp: runner, complete, started } =
+    categoryPodium(category, scores);
 
   return (
     <div

@@ -6,6 +6,7 @@ import { useStore } from "@/lib/store";
 import { useUmpire } from "@/lib/umpire";
 import { useMatchEditLock } from "@/lib/edit-lock";
 import { getTeam, matchKey } from "@/lib/tournament-data";
+import { resolveSideCode, sidePlaceholderLabel } from "@/lib/bracket";
 import { DEFAULT_MATCH_STATE, deriveState } from "@/lib/scoring";
 import { readableOn } from "@/lib/color";
 import { AvatarPair } from "./Avatar";
@@ -93,7 +94,7 @@ export function Scoreboard({
   category: Category;
   match: ScheduledMatch;
 }) {
-  const { getMatch, updateMatch } = useStore();
+  const { getMatch, updateMatch, scores } = useStore();
   const { isUmpire } = useUmpire();
 
   const key = matchKey(category.slug, match.matchNo);
@@ -103,10 +104,34 @@ export function Scoreboard({
   const [resetPin, setResetPin] = useState("");
   const [resetError, setResetError] = useState(false);
   const state = getMatch(key) ?? DEFAULT_MATCH_STATE;
-  const teamA = getTeam(category, match.a);
-  const teamB = getTeam(category, match.b);
+  const codeA = resolveSideCode(category, match.a, scores);
+  const codeB = resolveSideCode(category, match.b, scores);
+  const teamA = codeA ? getTeam(category, codeA) : undefined;
+  const teamB = codeB ? getTeam(category, codeB) : undefined;
   const ref = match.ref ? getTeam(category, match.ref) : undefined;
-  if (!teamA || !teamB) return null;
+
+  // Knockout side that hasn't been decided yet — nothing to score.
+  if (!teamA || !teamB || !codeA || !codeB) {
+    return (
+      <div className="space-y-5">
+        <Link
+          href={`/${category.slug}`}
+          className="text-sm text-muted hover:text-strong"
+        >
+          ← {category.name}
+        </Link>
+        <div className="card p-8 text-center text-muted">
+          <p className="text-lg font-semibold text-strong">
+            {match.stage ? `${match.stage} · ` : ""}Match {match.matchNo}
+          </p>
+          <p className="mt-2 text-sm">
+            Waiting for {teamA ? sidePlaceholderLabel(match.b) : sidePlaceholderLabel(match.a)}
+            {!teamA && !teamB ? " and both feeder matches" : ""} to finish before this match can be scored.
+          </p>
+        </div>
+      </div>
+    );
+  }
 
   const done = state.status === "done";
   const canEdit = isUmpire && heldByMe;
@@ -116,8 +141,8 @@ export function Scoreboard({
       scoreA,
       scoreB,
       category.gamePoints,
-      match.a,
-      match.b,
+      codeA!,
+      codeB!,
     );
     updateMatch(key, { scoreA, scoreB, ...derived });
   }
@@ -145,7 +170,7 @@ export function Scoreboard({
     }
   }
 
-  const winnerTeam = state.winner === match.a ? teamA : state.winner === match.b ? teamB : null;
+  const winnerTeam = state.winner === codeA ? teamA : state.winner === codeB ? teamB : null;
 
   return (
     <div className="space-y-5">
@@ -195,7 +220,7 @@ export function Scoreboard({
           team={teamA}
           score={state.scoreA}
           accent={category.color}
-          isWinner={state.winner === match.a}
+          isWinner={state.winner === codeA}
           canEdit={canEdit}
           done={done}
           onInc={incA}
@@ -206,7 +231,7 @@ export function Scoreboard({
           team={teamB}
           score={state.scoreB}
           accent={category.color}
-          isWinner={state.winner === match.b}
+          isWinner={state.winner === codeB}
           canEdit={canEdit}
           done={done}
           onInc={incB}
@@ -214,12 +239,13 @@ export function Scoreboard({
         />
       </div>
 
-      {ref && (
+      {(ref || match.refName) && (
         <div className="text-center text-sm text-muted">
           Referee:{" "}
           <span className="font-medium text-strong">
-            {category.format === "doubles" ? `Team ${ref.code} · ` : ""}
-            {ref.players.join(" & ")}
+            {ref
+              ? `${category.format === "doubles" ? `Team ${ref.code} · ` : ""}${ref.players.join(" & ")}`
+              : match.refName}
           </span>
         </div>
       )}

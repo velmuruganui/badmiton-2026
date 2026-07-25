@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useStore } from "@/lib/store";
 import { getTeam, matchKey } from "@/lib/tournament-data";
+import { resolveSideCode, sidePlaceholderLabel } from "@/lib/bracket";
 import { DEFAULT_MATCH_STATE } from "@/lib/scoring";
 import { TeamLabel } from "./TeamLabel";
 import type { Category, ScheduledMatch } from "@/lib/types";
@@ -13,6 +14,17 @@ const STATUS_STYLES: Record<string, string> = {
   done: "bg-brand/20 text-brand",
 };
 
+function PendingSide({ label, reverse }: { label: string; reverse?: boolean }) {
+  return (
+    <div className={`flex items-center gap-2 ${reverse ? "flex-row-reverse text-right" : ""}`}>
+      <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-surface-2 text-muted">
+        ?
+      </span>
+      <span className="text-sm font-medium leading-tight text-muted">{label}</span>
+    </div>
+  );
+}
+
 export function MatchCard({
   category,
   match,
@@ -20,16 +32,17 @@ export function MatchCard({
   category: Category;
   match: ScheduledMatch;
 }) {
-  const { getMatch } = useStore();
+  const { getMatch, scores } = useStore();
   const state = getMatch(matchKey(category.slug, match.matchNo)) ?? DEFAULT_MATCH_STATE;
-  const teamA = getTeam(category, match.a);
-  const teamB = getTeam(category, match.b);
+  const codeA = resolveSideCode(category, match.a, scores);
+  const codeB = resolveSideCode(category, match.b, scores);
+  const teamA = codeA ? getTeam(category, codeA) : undefined;
+  const teamB = codeB ? getTeam(category, codeB) : undefined;
   const ref = match.ref ? getTeam(category, match.ref) : undefined;
   const showCode = category.format === "doubles";
-  if (!teamA || !teamB) return null;
 
-  const aWon = state.status === "done" && state.winner === match.a;
-  const bWon = state.status === "done" && state.winner === match.b;
+  const aWon = state.status === "done" && state.winner === codeA;
+  const bWon = state.status === "done" && state.winner === codeB;
 
   return (
     <Link
@@ -39,7 +52,7 @@ export function MatchCard({
     >
       <div className="mb-3 flex items-center justify-between">
         <span className="text-xs font-semibold uppercase tracking-wide text-muted">
-          Match {match.matchNo}
+          {match.stage ? `${match.stage} · ` : ""}Match {match.matchNo}
         </span>
         <span
           className={`rounded-full px-2 py-0.5 text-[11px] font-semibold uppercase ${STATUS_STYLES[state.status]}`}
@@ -50,7 +63,11 @@ export function MatchCard({
 
       <div className="flex items-center gap-3">
         <div className={`flex-1 ${aWon ? "" : bWon ? "opacity-60" : ""}`}>
-          <TeamLabel categorySlug={category.slug} team={teamA} showCode={showCode} size="sm" />
+          {teamA ? (
+            <TeamLabel categorySlug={category.slug} team={teamA} showCode={showCode} size="sm" />
+          ) : (
+            <PendingSide label={sidePlaceholderLabel(match.a)} />
+          )}
         </div>
         <div className="shrink-0 text-center">
           <div className="tabular text-xl font-bold">
@@ -60,22 +77,25 @@ export function MatchCard({
           </div>
         </div>
         <div className={`flex-1 ${bWon ? "" : aWon ? "opacity-60" : ""}`}>
-          <TeamLabel
-            categorySlug={category.slug}
-            team={teamB}
-            showCode={showCode}
-            size="sm"
-            reverse
-          />
+          {teamB ? (
+            <TeamLabel
+              categorySlug={category.slug}
+              team={teamB}
+              showCode={showCode}
+              size="sm"
+              reverse
+            />
+          ) : (
+            <PendingSide label={sidePlaceholderLabel(match.b)} reverse />
+          )}
         </div>
       </div>
 
-      {ref && (
+      {(ref || match.refName) && (
         <div className="mt-3 border-t border-line/60 pt-2 text-center text-xs text-muted">
           Referee:{" "}
           <span className="font-medium text-strong">
-            {showCode ? `Team ${ref.code} · ` : ""}
-            {ref.players.join(" & ")}
+            {ref ? `${showCode ? `Team ${ref.code} · ` : ""}${ref.players.join(" & ")}` : match.refName}
           </span>
         </div>
       )}
