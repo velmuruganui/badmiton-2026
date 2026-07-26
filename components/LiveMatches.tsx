@@ -19,7 +19,7 @@ export function LiveMatches() {
       <h2 className="mb-3 text-lg font-semibold text-muted">Live now</h2>
       {live.length === 0 ? (
         <p className="card p-5 text-sm text-muted">
-          No matches in progress right now.
+          No matches are live right now. Check back once play begins.
         </p>
       ) : (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
