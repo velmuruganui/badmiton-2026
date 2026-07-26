@@ -21,7 +21,7 @@ npm run dev
 
 Open http://localhost:3000. Without any env vars the app works immediately and saves scores/photos in your browser.
 
-The default umpire PIN is **2026** (override with `NEXT_PUBLIC_UMPIRE_PIN`).
+The default umpire PIN is **1111** (override with `NEXT_PUBLIC_UMPIRE_PIN`).
 
 ## Enabling Supabase (realtime + cross-device)
 
@@ -33,7 +33,7 @@ The default umpire PIN is **2026** (override with `NEXT_PUBLIC_UMPIRE_PIN`).
    NEXT_PUBLIC_SUPABASE_URL=...
    NEXT_PUBLIC_SUPABASE_ANON_KEY=...
    SUPABASE_SERVICE_ROLE_KEY=...   # server-only, used just for seeding
-   NEXT_PUBLIC_UMPIRE_PIN=2026
+   NEXT_PUBLIC_UMPIRE_PIN=1111
    ```
 
 4. Seed the tournament data (categories, players, teams, fixtures) from the single source of truth:
