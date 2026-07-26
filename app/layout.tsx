@@ -6,6 +6,7 @@ import { StoreProvider } from "@/lib/store";
 import { UmpireProvider } from "@/lib/umpire";
 import { SiteHeader } from "@/components/SiteHeader";
 import { StatusBanner } from "@/components/StatusBanner";
+import { TestDataToast } from "@/components/TestDataToast";
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
@@ -40,6 +41,7 @@ export default function RootLayout({
             <footer className="border-t border-line/60 py-6 text-center text-xs text-muted">
               Badminton Scoreboard 2026 · games to 20 points
             </footer>
+            <TestDataToast />
           </UmpireProvider>
         </StoreProvider>
         <Analytics />
