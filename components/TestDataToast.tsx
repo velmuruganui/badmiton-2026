@@ -38,7 +38,7 @@ export function TestDataToast() {
     <div className="fixed inset-x-0 bottom-4 z-50 flex justify-center px-4">
       <div
         role="status"
-        className="flex items-center gap-3 rounded-full border border-line bg-surface-2 px-4 py-2 text-sm text-strong shadow-lg"
+        className="flex items-center gap-3 rounded-full border border-white/10 bg-ink px-4 py-2 text-sm text-white shadow-lg"
       >
         <span aria-hidden>🧪</span>
         <span>Currently showing test data — scores here aren&apos;t official.</span>
@@ -46,7 +46,7 @@ export function TestDataToast() {
           type="button"
           onClick={dismiss}
           aria-label="Dismiss"
-          className="ml-1 rounded-full px-1.5 text-muted hover:text-strong"
+          className="ml-1 rounded-full px-1.5 text-white/70 hover:text-white"
         >
           ✕
         </button>
