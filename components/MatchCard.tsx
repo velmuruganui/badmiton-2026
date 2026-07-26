@@ -33,13 +33,20 @@ export function MatchCard({
   match: ScheduledMatch;
 }) {
   const { getMatch, scores } = useStore();
-  const state = getMatch(matchKey(category.slug, match.matchNo)) ?? DEFAULT_MATCH_STATE;
   const codeA = resolveSideCode(category, match.a, scores);
   const codeB = resolveSideCode(category, match.b, scores);
   const teamA = codeA ? getTeam(category, codeA) : undefined;
   const teamB = codeB ? getTeam(category, codeB) : undefined;
   const ref = match.ref ? getTeam(category, match.ref) : undefined;
   const showCode = category.format === "doubles";
+
+  // A match can't be live/done until both sides are decided. If a feeder match
+  // is still pending (or was reset after this one was scored), ignore any stale
+  // stored state so the card stays consistent with the "Winner of…" placeholder.
+  const resolved = Boolean(codeA && codeB);
+  const state = resolved
+    ? getMatch(matchKey(category.slug, match.matchNo)) ?? DEFAULT_MATCH_STATE
+    : DEFAULT_MATCH_STATE;
 
   const aWon = state.status === "done" && state.winner === codeA;
   const bWon = state.status === "done" && state.winner === codeB;
