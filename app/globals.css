@@ -29,6 +29,9 @@
   color-scheme: dark;
   --bg-glow-1: rgba(255, 51, 0, 0.1);
   --bg-glow-2: rgba(162, 193, 196, 0.12);
+  /* Logo tile + racket (dark mode) */
+  --logo-bg: #0d4453; /* raised teal tile */
+  --logo-racket: #bff90b; /* Brilliant Yellow — pops on dark */
 }
 
 /* Light theme overrides */
@@ -44,6 +47,9 @@
   --color-note: #9a5b00; /* readable amber for notes on light bg */
   --bg-glow-1: rgba(255, 51, 0, 0.08);
   --bg-glow-2: rgba(162, 193, 196, 0.28);
+  /* Logo tile + racket (light mode) */
+  --logo-bg: #012a38; /* dark ink tile */
+  --logo-racket: #ff3300; /* Confident Orange */
 }
 
 body {
