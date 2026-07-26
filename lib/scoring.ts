@@ -8,7 +8,7 @@ export const DEFAULT_MATCH_STATE: MatchState = {
 };
 
 /**
- * Simple "first to N points" rule (game to 20 by default, no deuce).
+ * Simple "first to N points" rule (game to 21 by default, no deuce).
  * Returns the winning side, or null if the game is still in progress.
  */
 export function decideWinner(

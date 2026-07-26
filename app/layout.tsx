@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 export const metadata: Metadata = {
   title: "Badminton Scoreboard 2026",
   description:
-    "Live badminton tournament scoreboard — games to 20 points, realtime standings.",
+    "Live badminton tournament scoreboard — games to 21 points, realtime standings.",
 };
 
 export default function RootLayout({
@@ -38,7 +38,7 @@ export default function RootLayout({
               {children}
             </main>
             <footer className="border-t border-line/60 py-6 text-center text-xs text-muted">
-              Badminton Scoreboard 2026 · games to 20 points
+              Badminton Scoreboard 2026 · games to 21 points
             </footer>
           </UmpireProvider>
         </StoreProvider>

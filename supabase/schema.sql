@@ -12,7 +12,7 @@ create table if not exists categories (
   format       text not null check (format in ('doubles', 'singles')),
   kind         text not null default 'round-robin'
                check (kind in ('round-robin', 'knockout')),
-  game_points  int  not null default 20,
+  game_points  int  not null default 21,
   color        text not null default '#22c55e'
 );
 

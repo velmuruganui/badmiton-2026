@@ -58,6 +58,6 @@ The default umpire PIN is **1111** (override with `NEXT_PUBLIC_UMPIRE_PIN`).
 
 ## Notes
 
-- Games are single game to **20 points** (first to 20, no deuce). Adjust `gamePoints` per category in `lib/tournament-data.ts`.
+- Games are single game to **21 points** (first to 21, no deuce). Adjust `gamePoints` per category in `lib/tournament-data.ts`.
 - **Women Doubles** is a 3-team round-robin (each team plays 2 matches). The two mixed-doubles categories (Men-Women, Men-Kids) are knockout with lot-drawn partners and are not yet added, pending the lot draw.
 - Umpire gating is client-side (suitable for a friendly tournament). For hardened access control, upgrade to Supabase Auth + RLS.

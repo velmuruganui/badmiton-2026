@@ -32,7 +32,7 @@ export const CATEGORIES: Category[] = [
     time: "4:00–6:30 PM",
     format: "doubles",
     kind: "round-robin",
-    gamePoints: 20,
+    gamePoints: 21,
     color: "#ff3300",
     teams: [
       { code: "A", players: ["Doctor", "Abhijith"] },
@@ -51,7 +51,7 @@ export const CATEGORIES: Category[] = [
     time: "4:00–6:00 PM",
     format: "doubles",
     kind: "round-robin",
-    gamePoints: 20,
+    gamePoints: 21,
     color: "#bff90b",
     teams: [
       { code: "A", players: ["Nagaraj", "Abdul"] },
@@ -76,7 +76,7 @@ export const CATEGORIES: Category[] = [
     time: "6:30–7:15 PM",
     format: "doubles",
     kind: "knockout",
-    gamePoints: 20,
+    gamePoints: 21,
     color: "#c084fc",
     teams: [
       { code: "A", players: ["Satheesh", "Prema"] },
@@ -100,7 +100,7 @@ export const CATEGORIES: Category[] = [
     time: "7:15–8:00 PM",
     format: "doubles",
     kind: "knockout",
-    gamePoints: 20,
+    gamePoints: 21,
     color: "#fb923c",
     teams: [
       { code: "A", players: ["Easan", "Siva"] },
@@ -135,7 +135,7 @@ export const CATEGORIES: Category[] = [
     time: "4:00–4:40 PM",
     format: "doubles",
     kind: "round-robin",
-    gamePoints: 20,
+    gamePoints: 21,
     color: "#ff6fb5",
     teams: [
       { code: "A", players: ["Prema", "Durga"] },
@@ -156,7 +156,7 @@ export const CATEGORIES: Category[] = [
     time: "4:40–5:20 PM",
     format: "doubles",
     kind: "round-robin",
-    gamePoints: 20,
+    gamePoints: 21,
     color: "#2dd4bf",
     teams: [
       { code: "A", players: ["Gnanavel", "Sharwesh"] },
@@ -181,7 +181,7 @@ export const CATEGORIES: Category[] = [
     time: "5:20–6:00 PM",
     format: "doubles",
     kind: "round-robin",
-    gamePoints: 20,
+    gamePoints: 21,
     color: "#5aa9ff",
     teams: [
       { code: "A", players: ["Diya", "Roshne"] },
